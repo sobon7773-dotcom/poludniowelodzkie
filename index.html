@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Południowe Łódzkie – projekt mapy do Euro Truck Simulator 2.">
+    <title>Południowe Łódzkie | ETS2</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+
+<header class="header">
+    <a href="#home" class="brand">
+        <img src="images/logo.png" alt="Logo Południowe Łódzkie">
+        <span>POŁUDNIOWE <b>ŁÓDZKIE</b></span>
+    </a>
+
+    <nav>
+        <a href="#home">Główna</a>
+        <a href="#mapa">Mapa</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#aktualnosci">Aktualności</a>
+        <a href="#pobierz">Pobierz mapę</a>
+    </nav>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</header>
+
+<main>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <span class="tag">PROJEKT MAPOWY ETS2</span>
+            <h1>POŁUDNIOWE<br><span>ŁÓDZKIE</span></h1>
+            <p>
+                Poznaj południową część województwa łódzkiego
+                w świecie Euro Truck Simulator 2.
+            </p>
+            <a href="#mapa" class="main-btn">ODKRYJ MAPĘ →</a>
+        </div>
+        <div class="hero-image">
+            <img src="images/logo.png" alt="Południowe Łódzkie">
+        </div>
+    </section>
+
+    <section class="intro">
+        <h2>O PROJEKCIE</h2>
+        <div class="red-line"></div>
+        <p>
+            Południowe Łódzkie to projekt mapy do Euro Truck Simulator 2,
+            którego celem jest odwzorowanie lokalnych dróg, miejscowości
+            i charakterystycznych terenów południowej części województwa
+            łódzkiego.
+        </p>
+    </section>
+
+    <section id="mapa" class="section">
+        <div class="section-heading">
+            <span>POZNAJ NASZ REGION</span>
+            <h2>MAPA PROJEKTU</h2>
+            <div class="red-line"></div>
+        </div>
+
+        <p class="section-description">
+            Zobacz lokalizację obszaru projektu oraz wybrane miejscowości.
+            Możesz przybliżać mapę i sprawdzać oznaczenia.
+        </p>
+
+        <div id="map"></div>
+
+        <div class="map-legend">
+            <span>🔴 Gmina miejska</span>
+            <span>🟡 Gmina wiejska</span>
+        </div>
+    </section>
+
+    <section id="galeria" class="section gallery-section">
+        <div class="section-heading">
+            <span>ZOBACZ NASZE POSTĘPY</span>
+            <h2>GALERIA</h2>
+            <div class="red-line"></div>
+        </div>
+
+        <div class="gallery" id="gallery">
+            <div class="gallery-empty">
+                <span>📷</span>
+                <h3>Galeria w przygotowaniu</h3>
+                <p>Wkrótce pojawią się tutaj zdjęcia z projektu.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="aktualnosci" class="section">
+        <div class="section-heading">
+            <span>CO NOWEGO?</span>
+            <h2>AKTUALNOŚCI</h2>
+            <div class="red-line"></div>
+        </div>
+
+        <div class="news-grid" id="news-list"></div>
+    </section>
+
+    <section id="pobierz" class="download-section">
+        <div>
+            <span>EURO TRUCK SIMULATOR 2</span>
+            <h2>POBIERZ MAPĘ</h2>
+            <p>
+                Chcesz przemierzyć drogi Południowego Łódzkiego?
+                Pobierz naszą modyfikację!
+            </p>
+            <p class="download-status" id="download-status">
+                Projekt jest obecnie w trakcie tworzenia.
+            </p>
+            <a href="#" id="download-button" class="main-btn disabled">
+                POBIERANIE WKRÓTCE
+            </a>
+        </div>
+        <div class="download-icon">🚛</div>
+    </section>
+</main>
+
+<footer>
+    <img src="images/logo.png" alt="Logo">
+    <h3>POŁUDNIOWE ŁÓDZKIE</h3>
+    <p>Projekt mapy do Euro Truck Simulator 2</p>
+    <p>© 2026 Południowe Łódzkie. Wszelkie prawa zastrzeżone.</p>
+    <button onclick="openAdmin()" class="admin-link">
+        Panel administratora
+    </button>
+</footer>
+
+<!-- PANEL ADMINISTRATORA -->
+<div id="admin-modal" class="modal">
+    <div class="admin-box">
+        <button class="close" onclick="closeAdmin()">×</button>
+
+        <h2>Panel administratora</h2>
+        <p>Zarządzanie stroną projektu.</p>
+
+        <div id="admin-login">
+            <label>Hasło administratora</label>
+            <input type="password" id="admin-password"
+                   placeholder="Wpisz hasło">
+            <button class="admin-btn" onclick="loginAdmin()">
+                ZALOGUJ
+            </button>
+            <p id="login-error"></p>
+        </div>
+
+        <div id="admin-content" hidden>
+            <h3>Dodaj aktualność</h3>
+            <input id="news-title" placeholder="Tytuł aktualności">
+            <textarea id="news-text"
+                      placeholder="Treść aktualności"></textarea>
+            <button class="admin-btn" onclick="addNews()">
+                OPUBLIKUJ
+            </button>
+
+            <h3>Ustaw pobieranie mapy</h3>
+            <input id="zip-url"
+                   placeholder="Adres pliku ZIP">
+            <button class="admin-btn" onclick="saveDownload()">
+                ZAPISZ LINK
+            </button>
+
+            <h3>Zarządzanie aktualnościami</h3>
+            <div id="admin-news-list"></div>
+
+            <button class="admin-btn logout"
+                    onclick="logoutAdmin()">WYLOGUJ</button>
+        </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
